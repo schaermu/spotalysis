@@ -1,0 +1,12 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Authenticate with Spotify</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <iframe [src]="authorizeUrl | safe"></iframe>
+</ion-content>

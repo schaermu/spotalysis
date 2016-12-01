@@ -49,6 +49,7 @@
     "cordova-plugin-device",
     "cordova-plugin-statusbar",
     "cordova-plugin-splashscreen",
+    "cordova-plugin-inappbrowser",
     "ionic-plugin-keyboard"
   ],
   "cordovaPlatforms": [

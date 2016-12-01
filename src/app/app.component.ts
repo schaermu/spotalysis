@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
-import { Home } from '../pages/home/home'
+import { HomePage } from '../pages/home/home'
 
 @Component({
   templateUrl: 'app.html'
@@ -10,7 +10,7 @@ import { Home } from '../pages/home/home'
 export class SpotalysisApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = Home;
+  rootPage: any = HomePage;
 
   pages: Array<{title: string, component: any}>;
 

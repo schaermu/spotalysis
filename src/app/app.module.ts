@@ -1,12 +1,17 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { SpotalysisApp } from './app.component';
-import { Home } from '../pages/home/home';
+import { HomePage } from '../pages/home/home';
+import { SpotifyAuthPage } from '../pages/spotify-auth/spotify-auth';
+
+import { SafePipe } from '../pipes/safe-pipe'
 
 @NgModule({
   declarations: [
     SpotalysisApp,
-    Home
+    HomePage,
+    SpotifyAuthPage,
+    SafePipe
   ],
   imports: [
     IonicModule.forRoot(SpotalysisApp)
@@ -14,7 +19,8 @@ import { Home } from '../pages/home/home';
   bootstrap: [IonicApp],
   entryComponents: [
     SpotalysisApp,
-    Home
+    HomePage,
+    SpotifyAuthPage
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })
