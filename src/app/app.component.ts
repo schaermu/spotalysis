@@ -1,5 +1,3 @@
-import { Logger } from 'angular2-logger/core';
-import { LoggerService } from './../providers/logger-service';
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
@@ -7,8 +5,7 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 import { HomePage } from '../pages/home/home'
 
 @Component({
-  templateUrl: 'app.html',
-  providers: [LoggerService, Logger]
+  templateUrl: 'app.html'
 })
 export class SpotalysisApp {
   @ViewChild(Nav) nav: Nav;

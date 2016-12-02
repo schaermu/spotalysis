@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { NavController, Platform } from 'ionic-angular';
+import { NavController, Platform, ToastController } from 'ionic-angular';
 
 import { OauthCordova } from 'ng2-cordova-oauth/platform/cordova';
 import { OauthBrowser } from 'ng2-cordova-oauth/platform/browser'
@@ -8,6 +8,7 @@ import { Spotify } from 'ng2-cordova-oauth/provider/spotify'
 
 import { APP_CONFIG, IAppConfig } from './../../app/app-config';
 import { LoggerService } from './../../providers/logger-service';
+import { SpotifyService } from './../../providers/spotify-service';
 
 @Component({
   selector: 'page-home',
@@ -19,22 +20,25 @@ export class HomePage {
 
   constructor(
     public navCtrl: NavController,
-    private logger: LoggerService,
+    public toastCtrl: ToastController,
     private platform: Platform,
+    private logger: LoggerService,
+    private spotifySvc: SpotifyService,
     @Inject(APP_CONFIG) private config: IAppConfig) {
     this.provider = new Spotify({
       clientId: this.config.clientId,
+      responseType: 'token',
       appScope: [
         'playlist-read-private',
         'user-follow-read',
         'user-top-read'
       ],
-      redirectUri: 'http://localhost:8100/',
+      redirectUri: this.config.redirectUri,
       state: ''
     });
   }
 
-  authorizeWithSpotify() {
+  login() {
     if (this.platform.is('mobile')) {
       this.auth = new OauthCordova();
     } else {
@@ -42,8 +46,22 @@ export class HomePage {
     }
 
     this.auth.logInVia(this.provider, {})
-      .then((res) => console.log(res))
-      .catch((err) => console.error(err));
+      .then((res) => this.handleOauthSuccess(res))
+      .catch((err) => this.handleOauthError(err));
   }
 
+  handleOauthSuccess(response: any) {
+    this.spotifySvc.saveAuthToken(response.access_token);
+    this.spotifySvc.me().subscribe((me) => console.log(me));
+  }
+
+  handleOauthError(err: any) {
+    console.error(err);
+    let toast = this.toastCtrl.create({
+      message: 'Cancelled authentication using Spotify.',
+      duration: 3000,
+      position: 'bottom'
+    });
+    toast.present();
+  }
 }
