@@ -7,7 +7,7 @@ import 'rxjs/add/operator/do';
 import { APP_CONFIG, IAppConfig } from './../app/app-config';
 import { LoggerService } from './logger-service'
 
-import { SpotifyUserProfile } from './spotify-entities'
+import { SpotifyUserProfile } from '../models'
 
 const AUTH_TOKEN_KEY: string = 'SPOTIFY_AUTH_TOKEN';
 const API_BASE_URI: string = 'https://api.spotify.com/v1';

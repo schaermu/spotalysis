@@ -1,8 +1,4 @@
-export class Image {
-  height: number;
-  width: number;
-  url: string;
-}
+import { Image } from './image'
 
 export class SpotifyUserProfile {
   id: string;
