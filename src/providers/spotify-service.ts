@@ -37,14 +37,16 @@ export class SpotifyService {
     return this.http.get(`${API_BASE_URI}${endpoint}`, {
       headers: this.authHeader
     })
-    .do((r) => this.logger.log.debug(`Response from ${API_BASE_URI}${endpoint}: ${JSON.stringify(r.json())}`));
+    .do((r) => this.logger.log.debug(`Response from ${API_BASE_URI}${endpoint}: ${JSON.stringify(r.json())}`))
+    .catch((err) => Observable.throw(err));
   }
 
   private post(endpoint: string, payload: any): Observable<Response> {
     return this.http.post(`${API_BASE_URI}${endpoint}`, payload, {
       headers: this.authHeader
     })
-    .do((r) => this.logger.log.debug(`Response from ${API_BASE_URI}${endpoint}: ${JSON.stringify(r.json())}`));
+    .do((r) => this.logger.log.debug(`Response from ${API_BASE_URI}${endpoint}: ${JSON.stringify(r.json())}`))
+    .catch((err) => Observable.throw(err));
   }
 
   public saveAuthToken(token: string) {

@@ -54,7 +54,7 @@ export class LoginPage {
 
   handleOauthSuccess(response: any) {
     this.spotifySvc.saveAuthToken(response.access_token);
-    this.navCtrl.push(HomePage);
+    this.navCtrl.popToRoot();
   }
 
   handleOauthError(err: any) {

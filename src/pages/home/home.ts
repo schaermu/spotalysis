@@ -21,7 +21,9 @@ export class HomePage {
     if (!this.spotifySvc.isLoggedIn)
       this.navCtrl.push(LoginPage);
     else {
-      this.spotifySvc.me().subscribe((me) => console.log(me));
+      this.spotifySvc.me()
+        .catch((err) => this.navCtrl.push(LoginPage))
+        .subscribe((me) => console.log(me));
     }
   }
 }

@@ -9,6 +9,7 @@ import { SpotifyService } from './../providers/spotify-service'
 
 import { SpotalysisApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { LoginPage } from '../pages/login/login';
 
 import { SafePipe } from '../pipes/safe-pipe'
 
@@ -16,6 +17,7 @@ import { SafePipe } from '../pipes/safe-pipe'
   declarations: [
     SpotalysisApp,
     HomePage,
+    LoginPage,
     SafePipe
   ],
   imports: [
@@ -24,7 +26,8 @@ import { SafePipe } from '../pipes/safe-pipe'
   bootstrap: [IonicApp],
   entryComponents: [
     SpotalysisApp,
-    HomePage
+    HomePage,
+    LoginPage
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },
