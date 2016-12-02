@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
@@ -23,11 +23,8 @@ export class SpotifyService {
   }
 
   public me(): Observable<SpotifyUserProfile> {
-    return this.http.get(`${API_BASE_URI}/me`, {
-      headers: this.authHeader
-    })
-    .do((r) => console.log(r))
-    .map((r) => r.json() as SpotifyUserProfile);
+    return this.get(`/me`)
+      .map((r) => r.json() as SpotifyUserProfile);
   }
 
   get authHeader(): Headers {
@@ -36,8 +33,22 @@ export class SpotifyService {
     return authHeader;
   }
 
+  private get(endpoint: string): Observable<Response> {
+    return this.http.get(`${API_BASE_URI}${endpoint}`, {
+      headers: this.authHeader
+    })
+    .do((r) => this.logger.log.debug(`Response from ${API_BASE_URI}${endpoint}: ${JSON.stringify(r.json())}`));
+  }
+
+  private post(endpoint: string, payload: any): Observable<Response> {
+    return this.http.post(`${API_BASE_URI}${endpoint}`, payload, {
+      headers: this.authHeader
+    })
+    .do((r) => this.logger.log.debug(`Response from ${API_BASE_URI}${endpoint}: ${JSON.stringify(r.json())}`));
+  }
+
   public saveAuthToken(token: string) {
-    this.logger.log.debug('Saving auth token');
+    this.logger.log.debug(`Saving auth token ${token}`);
     localStorage.setItem(AUTH_TOKEN_KEY, token);
   }
 
@@ -47,5 +58,9 @@ export class SpotifyService {
 
   public removeAuthToken() {
     localStorage.removeItem(AUTH_TOKEN_KEY);
+  }
+
+  get isLoggedIn(): boolean {
+    return this.getAuthToken() !== '';
   }
 }

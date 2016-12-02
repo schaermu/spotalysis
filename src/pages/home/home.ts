@@ -1,67 +1,27 @@
-import { Component, Inject } from '@angular/core';
-import { NavController, Platform, ToastController } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { NavController } from 'ionic-angular';
 
-import { OauthCordova } from 'ng2-cordova-oauth/platform/cordova';
-import { OauthBrowser } from 'ng2-cordova-oauth/platform/browser'
-import { Oauth } from 'ng2-cordova-oauth/oauth';
-import { Spotify } from 'ng2-cordova-oauth/provider/spotify'
-
-import { APP_CONFIG, IAppConfig } from './../../app/app-config';
-import { LoggerService } from './../../providers/logger-service';
+import { LoginPage } from '../login/login'
 import { SpotifyService } from './../../providers/spotify-service';
+import { LoggerService } from './../../providers/logger-service';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  provider: Spotify;
-  auth: Oauth;
 
   constructor(
     public navCtrl: NavController,
-    public toastCtrl: ToastController,
-    private platform: Platform,
-    private logger: LoggerService,
     private spotifySvc: SpotifyService,
-    @Inject(APP_CONFIG) private config: IAppConfig) {
-    this.provider = new Spotify({
-      clientId: this.config.clientId,
-      responseType: 'token',
-      appScope: [
-        'playlist-read-private',
-        'user-follow-read',
-        'user-top-read'
-      ],
-      redirectUri: this.config.redirectUri,
-      state: ''
-    });
-  }
+    private logger: LoggerService) {}
 
-  login() {
-    if (this.platform.is('mobile')) {
-      this.auth = new OauthCordova();
-    } else {
-      this.auth = new OauthBrowser();
+  ionViewDidLoad() {
+    console.log('Hello HomePage Page');
+    if (!this.spotifySvc.isLoggedIn)
+      this.navCtrl.push(LoginPage);
+    else {
+      this.spotifySvc.me().subscribe((me) => console.log(me));
     }
-
-    this.auth.logInVia(this.provider, {})
-      .then((res) => this.handleOauthSuccess(res))
-      .catch((err) => this.handleOauthError(err));
-  }
-
-  handleOauthSuccess(response: any) {
-    this.spotifySvc.saveAuthToken(response.access_token);
-    this.spotifySvc.me().subscribe((me) => console.log(me));
-  }
-
-  handleOauthError(err: any) {
-    console.error(err);
-    let toast = this.toastCtrl.create({
-      message: 'Cancelled authentication using Spotify.',
-      duration: 3000,
-      position: 'bottom'
-    });
-    toast.present();
   }
 }
