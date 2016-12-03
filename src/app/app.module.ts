@@ -1,17 +1,27 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 
-import { Logger } from 'angular2-logger/core';
-import { LoggerService } from './../providers/logger-service';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { reducer } from './app.reducer';
 
-import { APP_CONFIG, AppConfig } from './../app/app-config';
-import { SpotifyService } from './../providers/spotify-service'
+import { UserActions } from '../actions/user.actions';
+
+import { Logger } from 'angular2-logger/core';
+import { LoggerService } from '../providers/logger-service';
+
+import { APP_CONFIG, AppConfig } from './app.config';
+import { SpotifyService } from '../providers/spotify-service'
 
 import { SpotalysisApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 
 import { SafePipe } from '../pipes/safe-pipe'
+
+const actions = [
+  UserActions
+];
 
 @NgModule({
   declarations: [
@@ -21,7 +31,9 @@ import { SafePipe } from '../pipes/safe-pipe'
     SafePipe
   ],
   imports: [
-    IonicModule.forRoot(SpotalysisApp)
+    IonicModule.forRoot(SpotalysisApp),
+    StoreModule.provideStore(reducer),
+    StoreDevtoolsModule.instrumentOnlyWithExtension()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -34,7 +46,8 @@ import { SafePipe } from '../pipes/safe-pipe'
     { provide: APP_CONFIG, useValue: AppConfig },
     SpotifyService,
     LoggerService,
-    Logger
+    Logger,
+    ...actions
   ]
 })
 export class AppModule { }

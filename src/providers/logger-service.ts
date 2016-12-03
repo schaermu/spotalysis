@@ -1,4 +1,4 @@
-import { APP_CONFIG, IAppConfig } from '../app/app-config';
+import { APP_CONFIG, IAppConfig } from '../app/app.config';
 import { Injectable, Inject } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { Logger } from "angular2-logger/core";

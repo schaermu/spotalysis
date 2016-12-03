@@ -6,11 +6,9 @@ import { OauthBrowser } from 'ng2-cordova-oauth/platform/browser'
 import { Oauth } from 'ng2-cordova-oauth/oauth';
 import { Spotify } from 'ng2-cordova-oauth/provider/spotify'
 
-import { APP_CONFIG, IAppConfig } from './../../app/app-config';
+import { APP_CONFIG, IAppConfig } from './../../app/app.config';
 import { LoggerService } from './../../providers/logger-service';
 import { SpotifyService } from './../../providers/spotify-service';
-
-import { HomePage } from '../home/home'
 
 @Component({
   selector: 'page-login',

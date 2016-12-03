@@ -4,7 +4,7 @@ import { Observable } from 'rxjs'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 
-import { APP_CONFIG, IAppConfig } from './../app/app-config';
+import { APP_CONFIG, IAppConfig } from './../app/app.config';
 import { LoggerService } from './logger-service'
 
 import { SpotifyUserProfile } from '../models'
@@ -19,7 +19,7 @@ export class SpotifyService {
     public http: Http,
     private logger: LoggerService,
     @Inject(APP_CONFIG) private config: IAppConfig) {
-      this.logger.log.debug('SpotifyService ctor');
+
   }
 
   public me(): Observable<SpotifyUserProfile> {
